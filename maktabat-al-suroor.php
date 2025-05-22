@@ -17,24 +17,32 @@
 			// Sample associative array containing department names and their respective links
 			$departments = [
 				"IT Department" => [
-					["name" => "Server Access", "url" => "server_access.php"],
-					["name" => "Software Guidelines", "url" => "software_guidelines.php"],
-					["name" => "TR", "uat_url" => "uat_tr.php", "prod_url" => "prod_tr.php"],
-					["name" => "TWT", "uat_url" => "uat_twt.php", "prod_url" => "prod_twt.php"],
-					["name" => "QH", "uat_url" => "uat_qh.php", "prod_url" => "prod_qh.php"]
+					"General IT Documents" => [
+						["name" => "Server Access", "url" => "server_access.php"],
+						["name" => "Software Guidelines", "url" => "software_guidelines.php"],
+					],
+					"Application Links" => [
+						["name" => "TR", "uat_url" => "uat_tr.php", "prod_url" => "prod_tr.php"],
+						["name" => "TWT", "uat_url" => "uat_twt.php", "prod_url" => "prod_twt.php"],
+						["name" => "QH", "uat_url" => "uat_qh.php", "prod_url" => "prod_qh.php"]
+					]
 				],
 				"Finance Department" => [
-					["name" => "Budget Report", "url" => "budget_report.php"],
-					["name" => "Taxation Policies", "url" => "taxation.php"]
+					"Reports & Policies" => [
+						["name" => "Budget Report", "url" => "budget_report.php"],
+						["name" => "Taxation Policies", "url" => "taxation.php"]
+					]
 				],
 				"HR Department" => [
-					["name" => "Employee Policies", "url" => "hr_policies.php"],
-					["name" => "Recruitment Process", "url" => "recruitment.php"]
+					"Policies and Procedures" => [
+						["name" => "Employee Policies", "url" => "hr_policies.php"],
+						["name" => "Recruitment Process", "url" => "recruitment.php"]
+					]
 				],
 			];
 
 			$index = 0;
-			foreach ($departments as $department => $links) {
+			foreach ($departments as $department => $sections) { // Modified to iterate through sections
 				$collapseId = "collapse" . $index;
 			?>
 				<div class="accordion-item">
@@ -50,21 +58,24 @@
 					<div id="<?= $collapseId ?>" class="accordion-collapse collapse <?= $index == 0 ? 'show' : '' ?>"
 						aria-labelledby="heading<?= $index ?>" data-bs-parent="#departmentAccordion">
 						<div class="accordion-body">
-							<ul class="list-group">
-								<?php foreach ($links as $link) { ?>
-									<li class="list-group-item d-flex justify-content-start">
-										<span class="fw-bold"><?= $link['name'] ?></span>
-										<?php if (isset($link['uat_url']) && isset($link['prod_url'])) { ?>
-											<a href="<?= $link['uat_url'] ?>" class="btn btn-sm btn-primary mx-2" target="_blank">UAT</a>
-											<a href="<?= $link['prod_url'] ?>" class="btn btn-sm btn-success" target="_blank">Production</a>
-										<?php } else { ?>
-											<a href="<?= $link['url'] ?>" class="text-decoration-none" target="_blank">
-												<?= $link['name'] ?>
-											</a>
-										<?php } ?>
-									</li>
-								<?php } ?>
-							</ul>
+							<?php foreach ($sections as $sectionTitle => $links) { // Added loop for sections ?>
+								<h5><?= $sectionTitle ?></h5>
+								<ul class="list-group mb-3">
+									<?php foreach ($links as $link) { ?>
+										<li class="list-group-item d-flex justify-content-start">
+											<span class="fw-bold"><?= $link['name'] ?></span>
+											<?php if (isset($link['uat_url']) && isset($link['prod_url'])) { ?>
+												<a href="<?= $link['uat_url'] ?>" class="btn btn-sm btn-primary mx-2" target="_blank">UAT</a>
+												<a href="<?= $link['prod_url'] ?>" class="btn btn-sm btn-success" target="_blank">Production</a>
+											<?php } else { ?>
+												<a href="<?= $link['url'] ?>" class="text-decoration-none" target="_blank">
+													<?= $link['name'] ?>
+												</a>
+											<?php } ?>
+										</li>
+									<?php } ?>
+								</ul>
+							<?php } ?>
 						</div>
 					</div>
 				</div>
